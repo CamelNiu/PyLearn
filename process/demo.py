@@ -1,165 +1,65 @@
-#py多进程
+from multiprocessing import Process,Pool,Lock
+import os,time,random
 
+#Process
 
-# from multiprocessing import Process
-# import os
-
-
-# def run_proc(name):
-#   print('Run child process %s (%s)...'% (name,os.getpid()))
-
-# if __name__=='__main__':
-#   print('Parent process %s.'% os.getpid())
-#   p = Process(target=run_proc, args=('test',))
-#   print('Child process will start.')
+# def child_process_func(name):
+#   #os.getpid() 获取当前进程id
+#   #os.getppid() 获取父进程id
+#   msg = "child process,My Name is "+str(name)+",processId is "+str(os.getpid())+" my father ProcessId is "+str(os.getppid())
+#   time.sleep(random.random()*5)
+#   print(msg)
+#
+# if __name__ == "__main__":
+#   print('parent process %s' % os.getpid() )
+#   # 这里表示Process类实例化了一个子进程对象,但是并未执行。target参数，表示子进程要执行的具体对象，args参数，表示子进程执行对象的参数
+#   p = Process(target=child_process_func,args=('a',))
+#   #p.start(),start()方法用于子进程对象的启动，即子进程开始执行
 #   p.start()
+#   #is_alive()方法，查看当前进程是否存在
+#   print(p.is_alive())#进程存在
+#   #p.join(),join()方法用于子进程结束。如果没有join，父进程子进程互不相干各自执行,如果有了join，则父进程等待子进程结束后才往下执行(可注释下面的p.join()语句尝试输出的不同结果)
 #   p.join()
-#   print('Child process end.')
+#   print(p.is_alive())#进程不存在
+#   print('parent end')
+#
+# #以上是一个最简单的Process类多进程实例。
+# #知识点:os.getPid(),os.getppid(),time.sleep(),random.random()
+# #Process类常用方法
+# # Process(target,args),最常用的两个参数
+# # start(),is_alive(),join(),常用方法
+
+#Pool
 
 
-
-
-# from multiprocessing import Pool
-# import os,time,random
-
-# # def long_time_task(name):
-# #   print('Run task %s (%s)...' % (name, os.getpid()))
-# #   start = time.time()
-# #   time.sleep(random.random() * 3)
-# #   end = time.time()
-# #   print('Task %s runs %0.2f seconds.' % (name, (end - start)))
-
-# # if __name__ == "__main__":
-# #   print('Parent process %s' % os.getpid())
-# #   p = Pool(6)
-# #   for i in range(10):
-# #     p.apply_async(long_time_task,args=(i,))
-# #   print('waiting for all subprocess done...')
-# #   p.close()
-# #   p.join()
-# #   print('all subprocess done.')
-
-
-# print(time.time())
-# print(random.random())
-
-
-# import subprocess
-
-# print ("$ nslookup www.python.org")
-# r = subprocess.call(['nslookup','www.python.org'])
-# print('exit code:',r)
-
-
-
-
-# from multiprocessing import Process,Queue
-# import os,time,random
-
-# def write(q):
-#   print('Process to write:%s' % os.getpid())
-#   for value in ['A','B','C']:
-#     print('Put %s to queue...' % value)
-#     q.put(value)
-#     time.sleep(random.random())
-
-# def read(q):
-#   print('Process to read %s' % os.getpid())
-#   while True:
-#     value = q.get(True)
-#     print('Get %s from queue.' % value)
-
-# if __name__ == '__main__':
-#   q = Queue()
-#   pw = Process(target=write,args=(q,))
-#   pr = Process(target=read,args=(q,))
-#   pw.start()
-#   pr.start()
-#   pw.join()
-#   print('结束')
-#   pr.terminate()
-
-
-# import time,threading
-
-
-
-# def loop():
-#   print('thread %s is runing...' % threading.current_thread().name)
-#   n = 0
-#   while  n < 5:
-#     n = n+1
-#     print('thread %s >>> %s' % (threading.current_thread().name,n))
-#     time.sleep(1)
-#   print('thread %s ended.' % threading.current_thread().name)
-
-# print('thread %s is runing...' % threading.current_thread().name)
-# t = threading.Thread(target=loop)
-# t.start()
-# t.join()
-# print('thread %s ended' % threading.current_thread().name)
-
-
-# import time,threading
-
-# lock = threading.Lock()
-
-# balance = 0
-
-# def change_it(n):
-#   global balance
-#   balance = balance+n
-#   balance = balance-n
-
-
-# def run_thread(n):
-#   for i in range(1000000):
-
-#       change_it(n)
-
-
-# t1 = threading.Thread(target=run_thread,args=(5,))
-# t2 = threading.Thread(target=run_thread,args=(8,))
-# t1.start()
-# t2.start()
-# t1.join()
-# t2.join()
-# print(balance)
-
-
-# import threading, multiprocessing
-
-# def loop():
-#   x = 0
-#   while True:
-#     x = x ^ 1
-
-# for i in range(6):
-#   t = threading.Thread(target=loop)
-#   t.start()
-
-
-
-# x = 0;
-# x = x ^ 1;
-# print(x)
-
-
-from multiprocessing import Pool
-import os
-
-def loop():
-  print('child process %s' % os.getpid())
-  x = 0
-  while True:
-    x = x ^ 1
-
+def child_process_func(name):
+  #os.getpid() 获取当前进程id
+  #os.getppid() 获取父进程id
+  msg = "child process,My Name is "+str(name)+",processId is "+str(os.getpid())+" my father ProcessId is "+str(os.getppid())
+  time.sleep(random.random()*5)
+  #print(time.time())
+  print(msg)
 
 if __name__ == '__main__':
-  print('Parent process %s' % os.getpid())
+  print('parent process %s' % os.getpid())
+  #进程池指定最多进程，并且创建对象
   p = Pool(6)
-  for i in range(6):
-    p.apply_async(loop)
-  print('waiting for all subprocess Done...')
+  defParName = ['a','b','c','d','e','f']
+  for name in defParName:
+    #apply_async(defName,args=(param,))，创建进程，非阻塞的且支持结果返回后进行回调
+    p.apply_async(child_process_func,args=(name,))
+  #关闭进程池
   p.close()
+  #p.terminal()#强制关闭进程
+  #等待进程结束
   p.join()
+  print('end')
+
+  #知识点
+  #以上是一个最简单的Pool进程池类多进程实例
+  #p=Pool(num)
+  #for i in range(num):
+  #   p.apply_async(defName,args(param,))
+  #p.close()
+  #p.join()
+
