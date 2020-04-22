@@ -9,7 +9,7 @@ import pymysql,random,time
 
 # pre = 'ALTER TABLE `f_i1_iwala_trade_user` PARTITION BY RANGE COLUMNS(`stime`) \n(';
 
-# minTime = 1585670400;
+# minTime = 1577808000;
 # maxTime = 1588262400;
 
 # allDay = []
@@ -38,11 +38,14 @@ import pymysql,random,time
 
 
 
-
+# db = pymysql.connect("10.100.0.81","shuzibi","YjExOGQzMDhkYzZmOWRlNjU5","puti" )
+# cursor = db.cursor()
 # data = cursor.execute(sql)
 # print(data)
 # data = cursor.fetchall()
 # print(data)
+
+
 
 db = pymysql.connect("10.100.0.81","shuzibi","YjExOGQzMDhkYzZmOWRlNjU5","shuzibi" )
 cursor = db.cursor()
@@ -76,8 +79,8 @@ for i in data:
 
 
 def getRangeTime():
-  minTime = 1585670400
-  maxTime = 1588176000
+  minTime = 1577808000
+  maxTime = 1588262400
   randTime = random.randint(minTime,maxTime)
   date = datetime.fromtimestamp(randTime).strftime('%Y-%m-%d %H:%M:%S')
   return date
@@ -130,7 +133,7 @@ begin = begin.timestamp()
 
 
 
-for i in range(30000):
+for i in range(10000):
   time = getRangeTime()
   memberId = getRandOne(memList)
   currencyId = getRandOne(curList)
