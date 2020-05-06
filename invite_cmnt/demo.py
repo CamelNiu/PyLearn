@@ -95,19 +95,16 @@ class ivtUserData:
     return dictData
 
   def insertDb(self):
-    self.clearIvtUser()
-    dictData = self.getDictData()
+    data = self.randomGetMemId(30);
 
-    sql = [];
-    for k,v in dictData.items():
-      for i in v:
-        tmpsql = "insert into iwala_user_invite (member_id,to_member_id) values ("+str(k)+","+str(i)+")"
-        sql.append(tmpsql)
+    for i in range(7270):
+      j = i+1
+      key = random.randint(0,29)
+      memId = data[key]
+      sql = "update iwala_user_invite set member_id = %s where id = %s" % (str(memId),str(j))
 
-
-      for i in sql:
-        self.cursor.execute(i)
-        self.db.commit()
+      self.cursor.execute(sql)
+      self.db.commit()
 
 
 
